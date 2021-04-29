@@ -1,8 +1,8 @@
 package com.conferencedemo.controllers;
 
-import com.conferencedemo.models.Session;
 import com.conferencedemo.models.Speaker;
 import com.conferencedemo.repositories.SpeakerRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,10 +32,23 @@ public class SpeakerController {
         return speakerRepository.saveAndFlush(speaker);
     }
 
+    /*
     @GetMapping
     public Optional<Speaker> findById(Long id){
         return speakerRepository.findById(id);
     }
+    */
+
+    @RequestMapping(value= "{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id){
+        speakerRepository.deleteById(id);
+    }
 
 
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public Speaker update(@PathVariable Long id, @RequestBody Speaker speaker){
+        Speaker existingSession = speakerRepository.getOne(id);
+        BeanUtils.copyProperties(speaker, existingSession, "speaker_id");
+        return speakerRepository.saveAndFlush(existingSession);
+    }
 }

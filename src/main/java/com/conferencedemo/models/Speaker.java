@@ -1,5 +1,6 @@
 package com.conferencedemo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ public class Speaker {
     private Long speaker_id;
     private String first_name;
     private String last_name;
-    private String tittle;
+    private String title;
     private String company;
     private String speaker_bio;
 
@@ -21,6 +22,7 @@ public class Speaker {
     private byte[] speaker_photo;
 
     @ManyToMany(mappedBy = "speakers")
+    @JsonIgnore
     private List<Session> sessions;
 
     public Speaker(){
@@ -70,11 +72,11 @@ public class Speaker {
     }
 
     public String getTittle() {
-        return tittle;
+        return title;
     }
 
     public void setTittle(String tittle) {
-        this.tittle = tittle;
+        this.title = tittle;
     }
 
     public String getCompany() {
